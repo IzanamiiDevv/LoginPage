@@ -21,6 +21,11 @@ app.get('/',(req,res)=>{
 
 //Server Op
 
+app.post('/LogIn',(req,res)=>{
+    const message = req.body.message;
+    res.send(`I got Your Request ${message.name}`)
+})
+
 
 app.listen(PORT,()=>{
     console.log(`http://localhost:${PORT}`)
