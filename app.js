@@ -41,9 +41,9 @@ function login(data, callback) {
         });
 
         if (isLogged) {
-            callback();
+            callback('Login Sucessfull');
         } else {
-            console.log('Login failed');
+            callback('Login failed')
         }
     });
 }
@@ -51,8 +51,8 @@ function login(data, callback) {
 
 app.post('/LogIn',(req,res)=>{
     const data = req.body.message;
-    login(data, () => {
-        res.send(`You Are Now Logged In`);
+    login(data, (respond) => {
+        res.send(respond);
     });
 });
 
@@ -74,7 +74,7 @@ function signUp(data, callback) {
         });
 
         if (isExistingUser) {
-            console.log('Username already exists. Please choose a different one.');
+            callback('Username already exists. Please choose a different one.')
         } else {
             object.push({
                 name: toHash(data.name),
@@ -84,8 +84,7 @@ function signUp(data, callback) {
                 if (writeErr) {
                     console.error('Error writing file:', writeErr);
                 } else {
-                    console.log('User successfully registered');
-                    callback();
+                    callback('User successfully registered');
                 }
             });
         }
@@ -94,8 +93,8 @@ function signUp(data, callback) {
 
 app.post('/SignIn',(req,res)=>{
     const data = req.body.message;
-    signUp(data, () => {
-        res.send(`You Are Now Signed In`);
+    signUp(data, (respond) => {
+        res.send(respond);
     });
 });
 
