@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const crpto = require('crypto');
+const crpyto = require('crypto');
 const cors = require('cors');
 
 const app = express();
@@ -16,15 +16,22 @@ app.use(cors({
 }));
 
 app.get('/',(req,res)=>{
-    res.sendFile(path.join(publicPath,'index.html'));
+    //Entry Point
+    res.sendFile(path.join(publicPath,'page.signin.html'));
 });
 
 //Server Op
 
+
 app.post('/LogIn',(req,res)=>{
     const message = req.body.message;
-    res.send(`I got Your Request ${message.name}`)
-})
+    res.send(`You are now Loggedin ${message.name}`)
+});
+
+app.post('/SignIn',(req,res)=>{
+    const message = req.body.message;
+    res.send(`You are now Signedin ${message.name}`)
+});
 
 
 app.listen(PORT,()=>{
