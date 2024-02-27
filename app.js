@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const crpyto = require('crypto');
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 const PORT = 3000;
@@ -21,16 +22,24 @@ app.get('/',(req,res)=>{
 });
 
 //Server Op
+function login(data){
 
+}
 
 app.post('/LogIn',(req,res)=>{
-    const message = req.body.message;
-    res.send(`You are now Loggedin ${message.name}`)
+    const data = req.body.message;
+    login(data)
+    res.send(`You are now Loggedin ${data.name}`)
 });
 
+function signin(data){
+
+}
+
 app.post('/SignIn',(req,res)=>{
-    const message = req.body.message;
-    res.send(`You are now Signedin ${message.name}`)
+    const data = req.body.message;
+    signin(data)
+    res.send(`You are now Signedin ${data.name}`)
 });
 
 
