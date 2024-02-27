@@ -22,28 +22,35 @@ app.get('/',(req,res)=>{
 });
 
 //Server Op
-function login({ name, password },callback) {
-    fs.readFile(path.join(publicPath,'data.json'), 'utf-8', (err, data) => {
+function login(data, callback) {
+    function toHash(inc) {
+        const hash = crpyto.createHash('sha256');
+        hash.update(inc);
+        return hash.digest('hex');
+    }
+
+    fs.readFile(path.join(publicPath, 'data.json'), 'utf-8', (err, fileData) => {
         if (err) {
             console.error('Error reading file:', err);
             return false;
         }
-        const object = JSON.parse(data);
+        const object = JSON.parse(fileData);
 
-        const isLogged = object.map(data => {
-            return data.name == name && data.password == password;
+        const isLogged = object.some(userData => {
+            return userData.name === toHash(data.name) && userData.password === toHash(data.password);
         });
 
-        
-        if(isLogged.some(elem => elem == true)){
-            callback()
+        if (isLogged) {
+            callback();
+        } else {
+            console.log('Login failed');
         }
     });
 }
 
-login({ name: 'Kyle103', password: '09876543211' },()=>{
-    console.log('You are Now Logged in')
-})
+login({ name: 'Kyle103', password: '09876543211' }, () => {
+    console.log('You are now logged in');
+});
 
 app.post('/LogIn',(req,res)=>{
     const data = req.body.message;
