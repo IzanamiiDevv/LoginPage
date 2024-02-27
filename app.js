@@ -57,6 +57,51 @@ app.post('/LogIn',(req,res)=>{
     res.send(login(data)  ? `You Are Now Logged In`:`Error Has Occured Cant Logged In`);
 });
 
+function signUp(data, callback) {
+    function toHash(inc) {
+        const hash = crypto.createHash('sha256');
+        hash.update(inc);
+        return hash.digest('hex');
+    }
+
+    fs.readFile(path.join(publicPath, 'data.json'), 'utf-8', (err, fileData) => {
+        if (err) {
+            console.error('Error reading file:', err);
+            return false;
+        }
+        const object = JSON.parse(fileData);
+
+        // Check if the username already exists
+        const isExistingUser = object.some(userData => {
+            return userData.name === toHash(data.name);
+        });
+
+        if (isExistingUser) {
+            console.log('Username already exists. Please choose a different one.');
+        } else {
+            // Add the new user to the array
+            object.push({
+                name: toHash(data.name),
+                password: toHash(data.password),
+            });
+
+            // Write the updated data back to the file
+            fs.writeFile(path.join(publicPath, 'data.json'), JSON.stringify(object, null, 2), 'utf-8', (writeErr) => {
+                if (writeErr) {
+                    console.error('Error writing file:', writeErr);
+                } else {
+                    console.log('User successfully registered');
+                    callback();
+                }
+            });
+        }
+    });
+}
+
+signUp({ name: 'NewUser', password: 'newpassword' }, () => {
+    console.log('Registration successful');
+});
+
 function signin({ name, password}){
     return false
 }
