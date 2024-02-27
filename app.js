@@ -22,24 +22,41 @@ app.get('/',(req,res)=>{
 });
 
 //Server Op
-function login(data){
+function login({ name, password },callback) {
+    fs.readFile(path.join(publicPath,'data.json'), 'utf-8', (err, data) => {
+        if (err) {
+            console.error('Error reading file:', err);
+            return false;
+        }
+        const object = JSON.parse(data);
 
+        const isLogged = object.map(data => {
+            return data.name == name && data.password == password;
+        });
+
+        
+        if(isLogged.some(elem => elem == true)){
+            callback()
+        }
+    });
 }
+
+login({ name: 'Kyle103', password: '09876543211' },()=>{
+    console.log('You are Now Logged in')
+})
 
 app.post('/LogIn',(req,res)=>{
     const data = req.body.message;
-    login(data)
-    res.send(`You are now Loggedin ${data.name}`)
+    res.send(login(data)  ? `You Are Now Logged In`:`Error Has Occured Cant Logged In`);
 });
 
-function signin(data){
-
+function signin({ name, password}){
+    return false
 }
 
 app.post('/SignIn',(req,res)=>{
     const data = req.body.message;
-    signin(data)
-    res.send(`You are now Signedin ${data.name}`)
+    res.send(signin(data)  ? `You Are Now Signed In`:`Error Has Occured Cant Logged In`);
 });
 
 
