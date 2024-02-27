@@ -3,8 +3,6 @@ A Simple and Secure Login Page With Node.js<br>
 Uses Node.js Crypto Module to hash the data into Hashedmap
 
 
-### ⚠️In Development🔧⚠️
-
 
 <h2 align="center">⚒️ Tool Used ⚒️</h2>
 <br/>
