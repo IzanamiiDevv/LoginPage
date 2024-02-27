@@ -48,13 +48,13 @@ function login(data, callback) {
     });
 }
 
-login({ name: 'Kyle103', password: '09876543211' }, () => {
-    console.log('You are now logged in');
-});
 
 app.post('/LogIn',(req,res)=>{
     const data = req.body.message;
     res.send(login(data)  ? `You Are Now Logged In`:`Error Has Occured Cant Logged In`);
+    login({ name: 'Kyle103', password: '09876543211' }, () => {
+        res.send(`You Are Now Logged In`);
+    });
 });
 
 function signUp(data, callback) {
@@ -70,8 +70,6 @@ function signUp(data, callback) {
             return false;
         }
         const object = JSON.parse(fileData);
-
-        // Check if the username already exists
         const isExistingUser = object.some(userData => {
             return userData.name === toHash(data.name);
         });
@@ -79,13 +77,10 @@ function signUp(data, callback) {
         if (isExistingUser) {
             console.log('Username already exists. Please choose a different one.');
         } else {
-            // Add the new user to the array
             object.push({
                 name: toHash(data.name),
                 password: toHash(data.password),
             });
-
-            // Write the updated data back to the file
             fs.writeFile(path.join(publicPath, 'data.json'), JSON.stringify(object, null, 2), 'utf-8', (writeErr) => {
                 if (writeErr) {
                     console.error('Error writing file:', writeErr);
@@ -98,17 +93,11 @@ function signUp(data, callback) {
     });
 }
 
-signUp({ name: 'NewUser', password: 'newpassword' }, () => {
-    console.log('Registration successful');
-});
-
-function signin({ name, password}){
-    return false
-}
-
 app.post('/SignIn',(req,res)=>{
     const data = req.body.message;
-    res.send(signin(data)  ? `You Are Now Signed In`:`Error Has Occured Cant Logged In`);
+    signUp({ name: 'NewUser', password: 'newpassword' }, () => {
+        res.send(`You Are Now Signed In`);
+    });
 });
 
 
