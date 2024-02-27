@@ -51,8 +51,7 @@ function login(data, callback) {
 
 app.post('/LogIn',(req,res)=>{
     const data = req.body.message;
-    res.send(login(data)  ? `You Are Now Logged In`:`Error Has Occured Cant Logged In`);
-    login({ name: 'Kyle103', password: '09876543211' }, () => {
+    login(data, () => {
         res.send(`You Are Now Logged In`);
     });
 });
@@ -95,7 +94,7 @@ function signUp(data, callback) {
 
 app.post('/SignIn',(req,res)=>{
     const data = req.body.message;
-    signUp({ name: 'NewUser', password: 'newpassword' }, () => {
+    signUp(data, () => {
         res.send(`You Are Now Signed In`);
     });
 });
