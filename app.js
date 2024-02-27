@@ -59,7 +59,7 @@ app.post('/LogIn',(req,res)=>{
 
 function signUp(data, callback) {
     function toHash(inc) {
-        const hash = crypto.createHash('sha256');
+        const hash = crpyto.createHash('sha256');
         hash.update(inc);
         return hash.digest('hex');
     }
